@@ -1,2 +1,3 @@
-# parallel-programming
-Projects and Code from CS475: Introduction to Parallel Programming
+# Introduction to Parallel Programming
+
+Projects and Code from [CS475: Introduction to Parallel Programming](https://ecampus.oregonstate.edu/soc/ecatalog/ecoursedetail.htm?subject=CS&coursenumber=475)
