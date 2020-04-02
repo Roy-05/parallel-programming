@@ -35,11 +35,11 @@ As for the question of why the speedup is less than 4.0, I am assuming it is bec
 
 For 2 threads, the Peak Performance fluctuates greatly, ranging from 450-710 MegaMults/Sec
 
-`Peak Performance = 1.22-1.92 MegaMults/Sec`  
+`Speedup Fraction = 1.22-1.92`  
 
 For 8 threads, the Peak Performance averages around 550-650 MegaMults/Sec
 
-`Peak Performance = 1.49-1.76 MegaMults/Sec`  
+`Speedup Fraction = 1.49-1.76`  
 
 **Note**: _While the conclusion seems to support my hypothesis that the overhead cost of each additional thread is significant, I have extremely limited knowledge on the subject matter and could just be misattributing the results._  
 
