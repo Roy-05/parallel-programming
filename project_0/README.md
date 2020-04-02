@@ -1,10 +1,10 @@
-### The machine I am running on had the following specifications:
+### Machine Specifications:
 ```
 Operating System: GNU/Linux, Linux Mint 19.3 Tricia  
 CPU 		: Intel(R) Core(TM) i5-4200M CPU @ 2.50GHz
 ```
 
-### The Performance Results I got were:
+### Performance Results:
 
 Using 4 threads  
 `Peak Performance =   875.14 MegaMults/Sec`  
