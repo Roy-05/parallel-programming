@@ -11,7 +11,7 @@ Peak Performance =   875.14 MegaMults/Sec
 
 for the values -
 
-SIZE	: 32768
+SIZE	: 32768  
 NUMTRIES: 100
 
 _Note: I tested with bigger values like 65536 and 500 tries and still got a Peak Performance of ~860 MegaMults/Sec. 
@@ -19,11 +19,10 @@ _Note: I tested with bigger values like 65536 and 500 tries and still got a Peak
 
 ### Speedup Fraction:
 
-Peak Performance with 1 thread : 369.32 MegaMults/Sec
-Peak Performance with 4 threads: 875.14 MegaMults/Sec
+Peak Performance with 1 thread : `369.32 MegaMults/Sec`
+Peak Performance with 4 threads: `875.14 MegaMults/Sec`
 
-Speedup Fraction(S) = 875.14/369.32
-		    = 2.35
+`Speedup Fraction(S) = 875.14/369.32 = 2.35`
 
 _Note: I would fairly ocassionally (approx. 1 in 8) get Peak Performace on 1 thread as ~270 MegaMults/Sec. Using that value would result in a Speedup Fraction of 3.24 which is significantly greater than the currently obtained value of 2.35; I was wondering what might be the cause of such ocassion discrepancy.  
 
@@ -33,19 +32,18 @@ As for the question of why the speedup is less than 4.0, I am assuming it is bec
 
 For 2 threads, the Peak Performance fluctuates greatly, ranging from 450-710 MegaMults/Sec
 
-Peak Performance = 1.22-1.92 MegaMults/Sec
+`Peak Performance = 1.22-1.92 MegaMults/Sec`
 
 For 8 threads, the Peak Performance averages around 550-650 MegaMults/Sec
 
-Peak Performance = 1.49-1.76 MegaMults/Sec
+`Peak Performance = 1.49-1.76 MegaMults/Sec`
 
 _Note: While the conclusion seems to support my hypothesis that the overhead cost of each additional threads is significant, I have extremely limited knowledge on the subject matter and could just be misattributung the results.  
 
 
 ### Parallel Fraction:
 
-Fp = (4.0/3.0)*(1.0 - (1.0/S))
-   = 0.76596
+`Fp = (4.0/3.0)*(1.0 - (1.0/S)) = 0.76596`
 
 
 
