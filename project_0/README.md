@@ -6,7 +6,7 @@ CPU 		: Intel(R) Core(TM) i5-4200M CPU @ 2.50GHz
 
 ### The Performance Results I got were:
 
-Using 4 threads
+Using 4 threads  
 `Peak Performance =   875.14 MegaMults/Sec`  
 
 for the values -
