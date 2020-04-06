@@ -12,7 +12,7 @@ Using 4 threads -
 for the values -
 ```
 SIZE	: 32768  
-NUMTRIES: 100
+NUMTRIES: 500
 ```
 **Note**: _I tested with bigger values like 65536,131072 and 1000, 10000, 100000 tries and still got a Peak Performance of ~870 MegaMults/Sec._  
 
