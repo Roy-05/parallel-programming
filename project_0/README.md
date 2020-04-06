@@ -14,7 +14,7 @@ for the values -
 SIZE	: 32768  
 NUMTRIES: 100
 ```
-**Note**: _I tested with bigger values like 65536 and 500 tries and still got a Peak Performance of ~860 MegaMults/Sec._  
+**Note**: _I tested with bigger values like 65536,131072 and 1000, 10000, 100000 tries and still got a Peak Performance of ~870 MegaMults/Sec._  
 
 
 ### Speedup Fraction:
