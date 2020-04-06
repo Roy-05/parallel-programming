@@ -5,7 +5,7 @@
 
 #define NUMT	         4
 #define SIZE       	 32768	// you decide
-#define NUMTRIES         500	// you decide
+#define NUMTRIES         1000	// you decide
 
 float A[SIZE];
 float B[SIZE];
@@ -30,6 +30,8 @@ main( )
         fprintf( stderr, "Using %d threads\n", NUMT );
 
         double maxMegaMults = 0.;
+	double avgMegaMults = 0.0;
+	double maxExecTime  = 0.0;
 
         for( int t = 0; t < NUMTRIES; t++ )
         {
@@ -45,9 +47,15 @@ main( )
                 double megaMults = (double)SIZE/(time1-time0)/1000000.;
                 if( megaMults > maxMegaMults )
                         maxMegaMults = megaMults;
+		
+		avgMegaMults += megaMults;
         }
 
+	avgMegaMults /= NUMTRIES;
+
         printf( "Peak Performance = %8.2lf MegaMults/Sec\n", maxMegaMults );
+	printf( "Avg Performance  = %8.2lf MegaMults/Sec\n", avgMegaMults );
+
 
 	// note: %lf stands for "long float", which is how printf prints a "double"
 	//        %d stands for "decimal integer", not "double"
