@@ -5,7 +5,7 @@
 
 #define NUMT	         4
 #define SIZE       	 32768	// you decide
-#define NUMTRIES         100	// you decide
+#define NUMTRIES         500	// you decide
 
 float A[SIZE];
 float B[SIZE];
