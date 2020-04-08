@@ -134,7 +134,7 @@ int main( int argc, char *argv[ ] )
 		currentProb = (double)numHits/(double)NUMTRIALS;
 	}
 	
-	printf("%lf\n", maxPerformance);
+	printf("%lf",maxPerformance);
 }
 	
 
