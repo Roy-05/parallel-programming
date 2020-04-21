@@ -134,7 +134,7 @@ int main( int argc, char *argv[ ] )
 		currentProb = (double)numHits/(double)NUMTRIALS;
 	}
 	
-	printf("%lf",maxPerformance);
+	printf("Threads: %d\nTrials: %d\nProbability: %lf\n\n",NUMT, NUMTRIALS, currentProb);
 }
 	
 
