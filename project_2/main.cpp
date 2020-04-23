@@ -6,12 +6,17 @@
 
 //Set the number of threads
 #ifndef NUMT
-#define NUMT		1
+#define NUMT		4
 #endif
 
 //Set the number of nodes
 #ifndef NUMNODES 	
 #define NUMNODES	1000
+#endif
+
+//Set the power indices for superquadratic	
+#ifndef N 	
+#define N	4
 #endif
 
 #define XMIN     -1.
@@ -39,30 +44,31 @@ int main( int argc, char *argv[ ] )
 	float fullTileArea = (  ( ( XMAX - XMIN )/(float)(NUMNODES-1) )  *
 				( ( YMAX - YMIN )/(float)(NUMNODES-1) )  );
 
-	// the area of a single edge tile:
-	float edgeTileArea = 0.5 * (  ( ( XMAX - XMIN )/(float)(NUMNODES-1) )  *
-				( ( YMAX - YMIN )/(float)(NUMNODES-1) )  );
-
-	// the area of a single corner tile:
-	float fullTileArea = 0.25 * (  ( ( XMAX - XMIN )/(float)(NUMNODES-1) )  *
-				( ( YMAX - YMIN )/(float)(NUMNODES-1) )  );
-
 
 	// sum up the weighted heights into the variable "volume"
 	// using an OpenMP for loop and a reduction:
-	#pragma omp parallel for default(none) reduction(+:volume)
+	#pragma omp parallel for default(none) shared(fullTileArea) reduction(+:volume)
 	for( int i = 0; i < NUMNODES*NUMNODES; i++ )
 	{
 		int iu = i % NUMNODES;
 		int iv = i / NUMNODES;
 		float z = Height( iu, iv );
-		
+		if((iu == 0 && iv == 0) || (iu == 0 && iv == NUMNODES-1) || (iu == NUMNODES-1 && iv == 0) ||  (iu == NUMNODES-1 && iv == NUMNODES-1)) {
+			volume += fullTileArea*z*0.25;
+		}
+		else if(iu == 0 || iv == 0 || iu == NUMNODES-1 || iv == NUMNODES-1){
+			volume += fullTileArea*z*0.5;
+		}
+		else {
+			volume += fullTileArea*z;
+		}
 		
 	}
+	volume *= 2;
+	printf("Volume: %lf", volume);
 }
 
-float
-Height( int iu, int iv )	// iu,iv = 0 .. NUMNODES-1
+float Height( int iu, int iv )	// iu,iv = 0 .. NUMNODES-1
 {
 	float x = -1.  +  2.*(float)iu /(float)(NUMNODES-1);	// -1. to +1.
 	float y = -1.  +  2.*(float)iv /(float)(NUMNODES-1);	// -1. to +1.
