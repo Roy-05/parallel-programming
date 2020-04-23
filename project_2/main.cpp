@@ -32,11 +32,21 @@ int main( int argc, char *argv[ ] )
 
 	//Set the number of threads for the for loop
 	omp_set_num_threads(NUMT);
-
+	
+	float volume = 0.;
 
 	// the area of a single full-sized tile:
 	float fullTileArea = (  ( ( XMAX - XMIN )/(float)(NUMNODES-1) )  *
 				( ( YMAX - YMIN )/(float)(NUMNODES-1) )  );
+
+	// the area of a single edge tile:
+	float edgeTileArea = 0.5 * (  ( ( XMAX - XMIN )/(float)(NUMNODES-1) )  *
+				( ( YMAX - YMIN )/(float)(NUMNODES-1) )  );
+
+	// the area of a single corner tile:
+	float fullTileArea = 0.25 * (  ( ( XMAX - XMIN )/(float)(NUMNODES-1) )  *
+				( ( YMAX - YMIN )/(float)(NUMNODES-1) )  );
+
 
 	// sum up the weighted heights into the variable "volume"
 	// using an OpenMP for loop and a reduction:
@@ -46,6 +56,8 @@ int main( int argc, char *argv[ ] )
 		int iu = i % NUMNODES;
 		int iv = i / NUMNODES;
 		float z = Height( iu, iv );
+		
+		
 	}
 }
 
