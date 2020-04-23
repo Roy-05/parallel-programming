@@ -6,12 +6,12 @@
 
 //Set the number of threads
 #ifndef NUMT
-#define NUMT		4
+#define NUMT		1
 #endif
 
 //Set the number of nodes
 #ifndef NUMNODES 	
-#define NUMNODES	1000
+#define NUMNODES	4
 #endif
 
 //Set the power indices for superquadratic	
@@ -47,24 +47,24 @@ int main( int argc, char *argv[ ] )
 
 	// sum up the weighted heights into the variable "volume"
 	// using an OpenMP for loop and a reduction:
-	#pragma omp parallel for default(none) shared(fullTileArea) reduction(+:volume)
+	#pragma omp parallel for default(none) reduction(+:volume)
 	for( int i = 0; i < NUMNODES*NUMNODES; i++ )
 	{
 		int iu = i % NUMNODES;
 		int iv = i / NUMNODES;
 		float z = Height( iu, iv );
 		if((iu == 0 && iv == 0) || (iu == 0 && iv == NUMNODES-1) || (iu == NUMNODES-1 && iv == 0) ||  (iu == NUMNODES-1 && iv == NUMNODES-1)) {
-			volume += fullTileArea*z*0.25;
+			volume += z*0.25;
 		}
 		else if(iu == 0 || iv == 0 || iu == NUMNODES-1 || iv == NUMNODES-1){
-			volume += fullTileArea*z*0.5;
+			volume += z*0.5;
 		}
 		else {
-			volume += fullTileArea*z;
+			volume += z;
 		}
 		
 	}
-	volume *= 2;
+	volume *= 2*fullTileArea;
 	printf("Volume: %lf", volume);
 }
 
