@@ -6,12 +6,12 @@
 
 //Set the number of threads
 #ifndef NUMT
-#define NUMT		1
+#define NUMT		2
 #endif
 
 //Set the number of nodes
 #ifndef NUMNODES 	
-#define NUMNODES	4
+#define NUMNODES	5000
 #endif
 
 //Set the power indices for superquadratic	
@@ -43,30 +43,35 @@ int main( int argc, char *argv[ ] )
 	// the area of a single full-sized tile:
 	float fullTileArea = (  ( ( XMAX - XMIN )/(float)(NUMNODES-1) )  *
 				( ( YMAX - YMIN )/(float)(NUMNODES-1) )  );
-
+	
+	double time0 = omp_get_wtime( );
 
 	// sum up the weighted heights into the variable "volume"
 	// using an OpenMP for loop and a reduction:
-	#pragma omp parallel for default(none) reduction(+:volume)
+	#pragma omp parallel for default(none) shared(fullTileArea) reduction(+:volume)
 	for( int i = 0; i < NUMNODES*NUMNODES; i++ )
 	{
 		int iu = i % NUMNODES;
 		int iv = i / NUMNODES;
-		float z = Height( iu, iv );
+		float z = Height( iu, iv )*2;
 		if((iu == 0 && iv == 0) || (iu == 0 && iv == NUMNODES-1) || (iu == NUMNODES-1 && iv == 0) ||  (iu == NUMNODES-1 && iv == NUMNODES-1)) {
-			volume += z*0.25;
+			volume += z*0.25*fullTileArea;
 		}
 		else if(iu == 0 || iv == 0 || iu == NUMNODES-1 || iv == NUMNODES-1){
-			volume += z*0.5;
+			volume += z*0.5*fullTileArea;
 		}
 		else {
-			volume += z;
+			volume += z*fullTileArea;
 		}
 		
 	}
-	volume *= 2*fullTileArea;
-	printf("Volume: %lf", volume);
+	
+	double time1 = omp_get_wtime( );
+	double megaNodesPerSecond = (double)NUMNODES*NUMNODES / ( time1 - time0 ) / 1000000.;
+
+	printf("Num Threads: %d\nNum Nodes: %d\nPerformance: %lf\nVolume: %lf\n", NUMT, NUMNODES, megaNodesPerSecond, volume);
 }
+
 
 float Height( int iu, int iv )	// iu,iv = 0 .. NUMNODES-1
 {
