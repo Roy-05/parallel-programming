@@ -70,7 +70,7 @@ int main( int argc, char *argv[ ] )
 	double time1 = omp_get_wtime( );
 	double megaHtsPerSecond = (double)NUMNODES*NUMNODES / ( time1 - time0 ) / 1000000.;
 
-	//printf("Num Threads: %d\nNum Nodes: %d\nPerformance: %lf\nVolume: %lf\n", NUMT, NUMNODES, megaNodesPerSecond, volume);
+	//printf("%2.4lf\t", volume);
 	printf("%2.5lf", megaHtsPerSecond);
 }
 
