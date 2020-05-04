@@ -4,4 +4,6 @@ Projects and Code from [CS475: Introduction to Parallel Programming](https://eca
 
 ### TODO:
 
- - [x] ~Project 2: Output volume is incorrect~
+ - [x] ~Project 2: Output volume is incorrect~  
+ - [ ] Need to add graphs and tables to README
+
