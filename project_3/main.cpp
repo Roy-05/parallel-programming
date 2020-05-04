@@ -19,8 +19,8 @@ void    Watcher();
 int NowYear;		// 2020 - 2025
 int	NowMonth;		// 0 - 11
 
-float	NowHeight = 1.0;		// grain height in inches
-int	NowNumDeer = 1;		// number of deer in the current population
+float	NowHeight;		// grain height in inches
+int	    NowNumDeer;		// number of deer in the current population
 float   NowPrecip;		// inches of rain per month
 float	NowTemp;		// temperature this month
 
@@ -49,8 +49,10 @@ int main(int argc, char *argv[])
 #endif
 
     // Set Up initial Environmental Parameters
-    NowMonth =  0;
-    NowYear =   2020;
+    NowMonth    =   0;
+    NowYear     =   2020;
+    NowNumDeer  =   1;
+    NowHeight   =   1.;
 
     float ang = (  30.*(float)NowMonth + 15.  ) * ( M_PI / 180. );
 
@@ -87,13 +89,16 @@ int main(int argc, char *argv[])
         //     MyAgent();
         // }
     }  
+
+    printf("\nCurrent Date: %d/%d\n", NowMonth+1, NowYear);
+    printf("Simulation Complete!\n");
 }
 
 void GrainDeer() {
     while(NowYear < 2026)
     {   
         float nextNumDeer = NowNumDeer;
-        if(nextNumDeer <= NowHeight){
+        if(nextNumDeer <= floor(NowHeight)){
             nextNumDeer++;
         }
         else{
@@ -124,7 +129,7 @@ void Grain() {
         nextHeight += tempFactor * precipFactor * GRAIN_GROWS_PER_MONTH;
         nextHeight -= (float)NowNumDeer * ONE_DEER_EATS_PER_MONTH;
         
-        if(nextHeight <= 0.0){
+        if(nextHeight < 0.0){
             nextHeight = 0.0;
         }
 
@@ -161,7 +166,7 @@ Watcher()
         // printf("Current Temperature   : %2.3f C\n\n", (5.0/9.0)*(NowTemp-32));
 
         // Print data for graph:
-        printf("%2.5f\t%d\t%2.5f\t%2.5f\n", NowHeight*2.54, NowNumDeer, NowPrecip*2.54,  (5.0/9.0)*(NowTemp-32));
+        printf("%2.4f\t%d\t%2.4f\t%2.4f\n", NowHeight*2.54, NowNumDeer, NowPrecip*2.54,  (5.0/9.0)*(NowTemp-32));
 
         // Calculate and Update environment variables
         if(NowMonth <11){
