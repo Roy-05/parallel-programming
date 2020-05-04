@@ -92,12 +92,18 @@ int main(int argc, char *argv[])
 void GrainDeer() {
     while(NowYear < 2026)
     {   
-        // . . . 
+        float nextNumDeer = NowNumDeer;
+        if(nextNumDeer <= floor(NowHeight)){
+            nextNumDeer++;
+        }
+        else{
+            nextNumDeer--;
+        }
 
         // DoneComputing barrier:
         #pragma omp barrier
 
-        // . . .
+        NowNumDeer = nextNumDeer;
 
         // DoneAssigning barrier:
         #pragma omp barrier
@@ -110,12 +116,22 @@ void GrainDeer() {
 void Grain() {
     while(NowYear < 2026)
     {   
-        // . . . 
+        // Compute condition for grain growth
+        float tempFactor = exp(   -SQR(  ( NowTemp - MIDTEMP ) / 10.  )   );
+        float precipFactor = exp(   -SQR(  ( NowPrecip - MIDPRECIP ) / 10.  )   );
+
+        float nextHeight = NowHeight;
+        nextHeight += tempFactor * precipFactor * GRAIN_GROWS_PER_MONTH;
+        nextHeight -= (float)NowNumDeer * ONE_DEER_EATS_PER_MONTH;
+        
+        if(nextHeight < 0.0){
+            nextHeight = 0.0;
+        }
 
         // DoneComputing barrier:
         #pragma omp barrier
 
-        // . . .
+        NowHeight = nextHeight;
 
         // DoneAssigning barrier:
         #pragma omp barrier
@@ -139,10 +155,10 @@ Watcher()
 
         // Print current state of environment:
         printf("Current Date          : %d/%d\n", NowMonth+1, NowYear);
-        printf("Current Grain Height  : %2.3f\n", NowHeight);
+        printf("Current Grain Height  : %2.3f cm\n", NowHeight*2.54);
         printf("Current Number of Deer: %d\n", NowNumDeer);
-        printf("Current Precipitation : %2.3f\n", NowPrecip);
-        printf("Current Temperature   : %2.3f\n\n", NowTemp);
+        printf("Current Precipitation : %2.3f cm\n", NowPrecip*2.54);
+        printf("Current Temperature   : %2.3f C\n\n", (5.0/9.0)*(NowTemp-32));
 
         // Calculate and Update environment variables
         if(NowMonth <11){
