@@ -93,7 +93,7 @@ void GrainDeer() {
     while(NowYear < 2026)
     {   
         float nextNumDeer = NowNumDeer;
-        if(nextNumDeer <= floor(NowHeight)){
+        if(nextNumDeer <= NowHeight){
             nextNumDeer++;
         }
         else{
@@ -124,7 +124,7 @@ void Grain() {
         nextHeight += tempFactor * precipFactor * GRAIN_GROWS_PER_MONTH;
         nextHeight -= (float)NowNumDeer * ONE_DEER_EATS_PER_MONTH;
         
-        if(nextHeight < 0.0){
+        if(nextHeight <= 0.0){
             nextHeight = 0.0;
         }
 
@@ -153,12 +153,15 @@ Watcher()
         // DoneAssigning barrier:
         #pragma omp barrier
 
-        // Print current state of environment:
-        printf("Current Date          : %d/%d\n", NowMonth+1, NowYear);
-        printf("Current Grain Height  : %2.3f cm\n", NowHeight*2.54);
-        printf("Current Number of Deer: %d\n", NowNumDeer);
-        printf("Current Precipitation : %2.3f cm\n", NowPrecip*2.54);
-        printf("Current Temperature   : %2.3f C\n\n", (5.0/9.0)*(NowTemp-32));
+        // // Print current state of environment:
+        // printf("Current Date          : %d/%d\n", NowMonth+1, NowYear);
+        // printf("Current Grain Height  : %2.3f cm\n", NowHeight*2.54);
+        // printf("Current Number of Deer: %d\n", NowNumDeer);
+        // printf("Current Precipitation : %2.3f cm\n", NowPrecip*2.54);
+        // printf("Current Temperature   : %2.3f C\n\n", (5.0/9.0)*(NowTemp-32));
+
+        // Print data for graph:
+        printf("%2.5f\t%d\t%2.5f\t%2.5f\n", NowHeight*2.54, NowNumDeer, NowPrecip*2.54,  (5.0/9.0)*(NowTemp-32));
 
         // Calculate and Update environment variables
         if(NowMonth <11){
