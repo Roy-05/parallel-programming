@@ -5,16 +5,18 @@
 #include <time.h>
 #include <omp.h>
 
-#define SSE_WIDTH		4
-#define	NUMTRIES		1000
-
 #ifndef	SIZE
 #define	SIZE			8192
 #endif
 
 #ifndef	NUMT
-#define	NUMT			1
+#define	NUMT			2
 #endif
+
+
+#define SSE_WIDTH		4
+#define	NUMTRIES		500
+#define NUM_ELEMENTS_PER_CORE	SIZE/NUMT
 
 
 float A[SIZE];
@@ -46,7 +48,11 @@ int main(int argc, char *argv[])
         for( int t = 0; t < NUMTRIES; t++ )
         {
                 double time0 = omp_get_wtime( );
-		SimdMulSum(A, B, SIZE);
+		#pragma omp parallel	
+		{
+		int first = omp_get_thread_num()*NUM_ELEMENTS_PER_CORE;
+		SimdMulSum(&A[first], &B[first], NUM_ELEMENTS_PER_CORE);
+		}	
  		double time1 = omp_get_wtime( );
 
                 double megaMults1 = (double)SIZE/(time1-time0)/1000000.;
