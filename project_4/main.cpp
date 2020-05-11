@@ -10,12 +10,12 @@
 #endif
 
 #ifndef	NUMT
-#define	NUMT			2
+#define	NUMT			4
 #endif
 
 
 #define SSE_WIDTH		4
-#define	NUMTRIES		500
+#define	NUMTRIES		1000
 #define NUM_ELEMENTS_PER_CORE	SIZE/NUMT
 
 
@@ -46,29 +46,31 @@ int main(int argc, char *argv[])
 	}
 	
         for( int t = 0; t < NUMTRIES; t++ )
-        {
-                double time0 = omp_get_wtime( );
-		#pragma omp parallel	
-		{
-		int first = omp_get_thread_num()*NUM_ELEMENTS_PER_CORE;
-		SimdMulSum(&A[first], &B[first], NUM_ELEMENTS_PER_CORE);
-		}	
- 		double time1 = omp_get_wtime( );
+        {	
 
-                double megaMults1 = (double)SIZE/(time1-time0)/1000000.;
-                if( megaMults1 > maxMegaMultsSimd )
-                        maxMegaMultsSimd = megaMults1;
+                // double time0 = omp_get_wtime( );
+				// #pragma omp parallel
+				// {
+				// int first = omp_get_thread_num()*NUM_ELEMENTS_PER_CORE;
+				// SimdMulSum(&A[first], &B[first], NUM_ELEMENTS_PER_CORE);
+				// }	
+				// double time1 = omp_get_wtime( );
 
-		double time3 = omp_get_wtime( );
-		NonSimdMulSum(A, B, SIZE );
- 		double time4 = omp_get_wtime( );
+				// double megaMults1 = (double)SIZE/(time1-time0)/1000000.;
+				// if( megaMults1 > maxMegaMultsSimd )
+				// 		maxMegaMultsSimd = megaMults1;
 
-	        double megaMults2 = (double)SIZE/(time4-time3)/1000000.;
-	        if( megaMults2 > maxMegaMultsNonSimd )
-	                maxMegaMultsNonSimd = megaMults2;
+				double time3 = omp_get_wtime( );
+				NonSimdMulSum(A, B, SIZE );
+				double time4 = omp_get_wtime( );
+
+				double megaMults2 = (double)SIZE/(time4-time3)/1000000.;
+				if( megaMults2 > maxMegaMultsNonSimd )
+						maxMegaMultsNonSimd = megaMults2;
 	}
 
-   	printf("%3.3lf\t%3.3lf\t%1.3lf\t%d\n", maxMegaMultsSimd, maxMegaMultsNonSimd, maxMegaMultsSimd/maxMegaMultsNonSimd, SIZE );
+   	// printf("%3.3lf\t%3.3lf\t%1.3lf\t%d\n", maxMegaMultsSimd, maxMegaMultsNonSimd, maxMegaMultsSimd/maxMegaMultsNonSimd, SIZE );
+	printf("%4.4lf\n", maxMegaMultsNonSimd);
 }
 
 
@@ -102,6 +104,7 @@ float
 NonSimdMulSum( float *a, float *b, int len)
 {
 	float sum = 0.;
+	#pragma omp parallel for default(shared) reduction(+: sum)
 	for(int i =0; i< len; i++)
 	{
 		sum += a[i] * b[i];
