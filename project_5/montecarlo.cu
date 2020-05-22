@@ -15,12 +15,12 @@
 
 // setting the number of trials in the monte carlo simulation:
 #ifndef NUMTRIALS
-#define NUMTRIALS	( 1024*1024 )
+#define NUMTRIALS	32768
 #endif
 
 
 #ifndef BLOCKSIZE
-#define BLOCKSIZE		32     // number of threads per block
+#define BLOCKSIZE		16     // number of threads per block
 #endif
 
 #define NUMBLOCKS		( NUMTRIALS / BLOCKSIZE )
@@ -101,7 +101,6 @@ __global__  void MonteCarlo( float *Xcs, float *Ycs, float *Rs, int *Hits )
 
 			// get the outgoing (bounced) vector:
 			float dot = inx*nx + iny*ny;
-		
 			float outy = iny - 2.*ny*dot;	// angle of reflection = angle of incidence
 
 			// find out if it hits the infinite plate:
@@ -221,7 +220,11 @@ main( int argc, char* argv[ ] )
 	double secondsTotal = 0.001 * (double)msecTotal;
 	double trialsPerSecond = (float)NUMTRIALS / secondsTotal;
 	double megaTrialsPerSecond = trialsPerSecond / 1000000.;
-	fprintf( stderr, "Number of Trials = %10d, MegaTrials/Second = %10.4lf\n", NUMTRIALS, megaTrialsPerSecond );
+	//fprintf( stderr, "Number of Trials = %10d, MegaTrials/Second = %10.4lf\n", NUMTRIALS, megaTrialsPerSecond );
+	
+	FILE *ptr = fopen("data.txt", "a+");
+	fprintf(ptr, "%lf", megaTrialsPerSecond);
+	fclose(ptr);
 
 	// copy result from the device to the host:
 
@@ -231,14 +234,14 @@ main( int argc, char* argv[ ] )
 
 	// compute the probability:
 
-	int numHits = 0;
-	for(int i = 0; i < NUMTRIALS; i++ )
-	{
-		numHits += hHits[i];
-	}
+	//int numHits = 0;
+	//for(int i = 0; i < NUMTRIALS; i++ )
+	//{
+	//	numHits += hHits[i];
+	//}
 
-	float probability = 100.f * (float)numHits / (float)NUMTRIALS;
-	fprintf(stderr, "\nProbability = %6.3f %%\n", probability );
+	//float probability = 100.f * (float)numHits / (float)NUMTRIALS;
+	//fprintf(stderr, "\nProbability = %6.3f %%\n", probability );
 
 	// clean up memory:
 	delete [ ] hXcs;
