@@ -133,8 +133,14 @@ int main( int argc, char *argv[ ] )
 			maxPerformance = megaTrialsPerSecond;
 		currentProb = (double)numHits/(double)NUMTRIALS;
 	}
+
+	FILE *ptr = fopen("data1.txt", "a+");
 	
-	printf("Threads: %d\nTrials: %d\nProbability: %lf\n\n",NUMT, NUMTRIALS, currentProb);
+	fprintf(ptr, "%lf", maxPerformance);
+
+	fclose(ptr);
+
+	//printf("Threads: %d\nTrials: %d\nProbability: %lf\n\n",NUMT, NUMTRIALS, currentProb);
 }
 	
 
