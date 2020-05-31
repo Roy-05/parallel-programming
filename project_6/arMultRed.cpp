@@ -81,7 +81,7 @@ main( int argc, char *argv[ ] )
 
 	for( int i = 0; i < NUM_ELEMENTS; i++ )
 	{
-		hA[i] = hB[i] = (float) sqrt((double) i);
+		hA[i] = hB[i] = 2.;
 	}
 
 	// 3. create an opencl context:
@@ -211,11 +211,9 @@ main( int argc, char *argv[ ] )
 
 	//---------------------------------------------------------------//
 
-//	FILE *dataFile = fopen("data.txt", "a+");
-//	fprintf(dataFile, "%lf", (float)NUM_ELEMENTS/(time1-time0)/1000000. );
-//	fclose(dataFile);
-
-	printf("Sum:\t%lf", sum);
+	FILE *dataFile = fopen("data1.txt", "a+");
+	fprintf(dataFile, "%lf", (float)NUM_ELEMENTS/(time1-time0)/1000000. );
+	fclose(dataFile);
 
 #ifdef WIN32
 	Sleep( 2000 );
